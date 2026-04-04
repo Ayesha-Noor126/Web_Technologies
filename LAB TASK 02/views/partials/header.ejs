@@ -1,0 +1,153 @@
+
+<link rel="stylesheet" href="/stylesheets/style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+<header>
+    <div class="container">
+
+        <button class="hamburger-btn" id="hamburger-btn" aria-label="Toggle navigation menu" aria-expanded="false">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+
+        <div class="logo">
+            <img src="/assest/Website_Logo_-_Blue_120x.avif" alt="Logo">
+        </div>
+
+        <nav id="main-nav">
+            <ul class="menu">
+
+                <!-- NEW ARRIVALS -->
+                <li class="has-dropdown">
+                    <a href="#" class="red">NEW ARRIVALS</a>
+                    <ul class="dropdown">
+                        <li><a href="#">New This Week</a></li>
+                        <li><a href="#">Best Sellers</a></li>
+                        <li><a href="#">Online Exclusives</a></li>
+                    </ul>
+                </li>
+
+                <!-- SUITS & COATS -->
+                <li class="has-dropdown">
+                    <a href="#">SUITS & COATS</a>
+                    <ul class="dropdown">
+                        <li><a href="#">2-Piece Suits</a></li>
+                        <li><a href="#">3-Piece Suits</a></li>
+                        <li><a href="#">Waistcoat Sets</a></li>
+                        <li><a href="#">Tuxedos</a></li>
+                        <li><a href="#">Blazers</a></li>
+                        <li><a href="#">Overcoats</a></li>
+                        <li><a href="#">Wool Coats</a></li>
+                    </ul>
+                </li>
+
+            
+                <!-- DRESS SHIRTS & PANTS -->
+<li class="has-dropdown">
+    <a href="#">DRESS SHIRTS & PANTS</a>
+    <ul class="dropdown">
+        <li><a href="#">Formal Shirts</a></li>
+        <li><a href="#">Casual Shirts</a></li>
+        <li><a href="#">Polo Shirts</a></li>
+        <li><a href="#">T-Shirts</a></li>
+        <li><a href="#">Trousers</a></li>
+        <li><a href="#">Chinos</a></li>
+        <li><a href="#">Jeans</a></li>
+        <li><a href="#">Basic 5 Pockets</a></li>
+    </ul>
+</li>
+
+                <!-- ACCESSORIES -->
+                <li class="has-dropdown">
+                    <a href="#">ACCESSORIES</a>
+                    <ul class="dropdown">
+                        <li><a href="#">Ties & Bow Ties</a></li>
+                        <li><a href="#">Belts</a></li>
+                        
+                        <li><a href="#">Pocket Squares</a></li>
+                        <li><a href="#">Cufflinks</a></li>
+                        <li><a href="#">Socks</a></li>
+                    </ul>
+                </li>
+
+<!-- TEHWAR -->
+<li class="has-dropdown">
+    <a href="#">TEHWAR</a>
+    <ul class="dropdown">
+        <li><a href="#">Casuals</a></li>
+        <li><a href="#">Formals</a></li>
+        <li><a href="#">Tehwar</a></li>
+        <li><a href="#">Winter</a></li>
+        <li><a href="#">Accessories</a></li>
+    </ul>
+</li>
+                <!-- SHOP ONLINE ONLY -->
+                <li class="has-dropdown">
+                    <a href="#" class="red">SHOP ONLINE ONLY</a>
+                    <ul class="dropdown">
+                        <li><a href="#">Exclusive Shirts</a></li>
+                        <li><a href="#">Exclusive Suits</a></li>
+                        <li><a href="#">Limited Edition</a></li>
+                    </ul>
+                </li>
+
+                <!-- SALE -->
+<li class="has-dropdown">
+    <a href="#">SALE</a>
+    <ul class="dropdown">
+        <li class="has-sub">
+            <a href="#">Up to 30% Off</a>
+            <ul class="sub-dropdown">
+                <li><a href="#">Shirts</a></li>
+                <li><a href="#">Suits</a></li>
+                <li><a href="#">Pants</a></li>
+            </ul>
+        </li>
+        <li><a href="#">Clearance</a></li>
+        <li><a href="#">Bundle Deals</a></li>
+    </ul>
+</li>
+
+            </ul>
+        </nav>
+
+        <div class="header-icons">
+            <a href="#">
+                <i class="fa-solid fa-magnifying-glass" id="searchOpenBtn"></i>
+            </a>
+            <div class="cart">
+                <a href="#">
+                    <i class="fa-solid fa-cart-shopping"></i>
+                </a>
+                <span class="cart-count">0</span>
+            </div>
+        </div>
+
+    </div>
+</header>
+
+<!-- SEARCH OVERLAY -->
+<div class="search-overlay" id="searchOverlay">
+    <div class="search-overlay-box">
+        <div class="search-top">
+            <button class="search-close-btn" id="searchCloseBtn">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            <div class="search-input-wrap">
+                <input type="text" id="searchInput" placeholder="Search products..." autocomplete="off" />
+                <i class="fa-solid fa-magnifying-glass search-icon-inside"></i>
+            </div>
+        </div>
+        <div class="search-results" id="searchResults">
+            <p class="search-placeholder-text">Start typing to search products...</p>
+        </div>
+    </div>
+</div>
+
+<div class="nav-overlay"></div>
+
+<script src="/javascripts/script.js"></script>
+
+
+
