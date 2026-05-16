@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   
+    <link rel="stylesheet" href="/stylesheets/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
+
+
+
+<%- include('partials/header') %>
+
+<div class="product-page">
+  <div class="product-container">
+
+    <!-- BREADCRUMB -->
+    <div class="breadcrumb">
+      <a href="/">Home</a> /
+      <a href="#">Products</a> /
+      <span><%= product.name %></span>
+    </div>
+
+    <!-- MAIN PRODUCT SECTION -->
+    <div class="product-layout">
+
+      <!-- LEFT: IMAGES -->
+      <div class="product-images">
+        <!-- MAIN IMAGE -->
+        <div class="product-main-img">
+          <img src="<%= product.images[0] %>" alt="<%= product.name %>" id="mainImage">
+          <% if (product.stock <= 0) { %>
+            <div class="product-oos-badge">OUT OF STOCK</div>
+          <% } %>
+        </div>
+
+        <!-- THUMBNAIL IMAGES (if multiple) -->
+        <% if (product.images.length > 1) { %>
+          <div class="product-thumbnails">
+            <% product.images.forEach((img, index) => { %>
+              <img 
+                src="<%= img %>" 
+                alt="<%= product.name %> view <%= index + 1 %>"
+                class="thumb <%= index === 0 ? 'active' : '' %>"
+                onclick="changeImage(this, '<%= img %>')"
+              >
+            <% }) %>
+          </div>
+        <% } %>
+      </div>
+
+      <!-- RIGHT: PRODUCT INFO -->
+      <div class="product-info">
+
+        <% if (product.badge) { %>
+          <span class="product-badge"><%= product.badge %></span>
+        <% } %>
+
+        <h1 class="product-name"><%= product.name %></h1>
+        <p class="product-price">Rs.<%= product.price.toLocaleString() %></p>
+
+        <div class="product-divider"></div>
+
+        <!-- DESCRIPTION -->
+        <% if (product.description) { %>
+          <p class="product-desc"><%= product.description %></p>
+        <% } %>
+
+        <!-- SIZES -->
+        <% if (product.sizes && product.sizes.length > 0) { %>
+          <div class="product-sizes">
+            <p class="size-label">SELECT SIZE</p>
+            <div class="size-options">
+              <% product.sizes.forEach(size => { %>
+                <button class="size-btn" onclick="selectSize(this, '<%= size %>')">
+                  <%= size %>
+                </button>
+              <% }) %>
+            </div>
+          </div>
+        <% } %>
+
+        <!-- STOCK INFO -->
+        <p class="stock-info">
+          <% if (product.stock > 10) { %>
+            <i class="fa-solid fa-circle-check" style="color:green"></i> In Stock
+          <% } else if (product.stock > 0) { %>
+            <i class="fa-solid fa-circle-exclamation" style="color:orange"></i> Only <%= product.stock %> left!
+          <% } else { %>
+            <i class="fa-solid fa-circle-xmark" style="color:red"></i> Out of Stock
+          <% } %>
+        </p>
+
+        <!-- ADD TO CART -->
+        <% if (product.stock > 0) { %>
+          <form action="/cart/add" method="POST">
+            <input type="hidden" name="productId" value="<%= product._id %>">
+            <button type="submit" class="btn-product-cart">
+              <i class="fa-solid fa-cart-shopping"></i> ADD TO CART
+            </button>
+          </form>
+        <% } else { %>
+          <button class="btn-product-cart btn-out-of-stock" disabled>
+            OUT OF STOCK
+          </button>
+        <% } %>
+
+        <!-- FEATURES -->
+        <div class="product-features">
+          <div class="feature">
+            <i class="fa-solid fa-truck"></i>
+            <span>Free delivery on orders above Rs.5000</span>
+          </div>
+          <div class="feature">
+            <i class="fa-solid fa-rotate-left"></i>
+            <span>Easy 7-day returns</span>
+          </div>
+          <div class="feature">
+            <i class="fa-solid fa-shield-halved"></i>
+            <span>100% authentic product</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- RELATED PRODUCTS -->
+    <% if (related.length > 0) { %>
+      <div class="related-section">
+        <h2 class="related-title">YOU MAY ALSO LIKE</h2>
+        <div class="product-grid">
+          <% related.forEach(p => { %>
+            <div class="product-card">
+              <% if (p.badge) { %>
+                <span class="badge"><%= p.badge %></span>
+              <% } %>
+              <% if (p.stock <= 0) { %>
+                <span class="badge" style="background:#cc0000; left:15px; right:auto;">OUT OF STOCK</span>
+              <% } %>
+              <a href="/product/<%= p._id %>">
+                <img src="<%= p.images[0] %>" alt="<%= p.name %>">
+              </a>
+              <h3><%= p.name %></h3>
+              <p class="price">Rs.<%= p.price.toLocaleString() %></p>
+              <% if (p.stock > 0) { %>
+                <form action="/cart/add" method="POST">
+                  <input type="hidden" name="productId" value="<%= p._id %>">
+                  <button type="submit" class="btn-add-cart">Add to Cart</button>
+                </form>
+              <% } else { %>
+                <button class="btn-add-cart btn-out-of-stock" disabled>OUT OF STOCK</button>
+              <% } %>
+            </div>
+          <% }) %>
+        </div>
+      </div>
+    <% } %>
+
+  </div>
+</div>
+
+<!-- JS for image switching and size selection -->
+<script>
+function changeImage(thumb, src) {
+  document.getElementById('mainImage').src = src;
+  document.querySelectorAll('.thumb').forEach(t => t.classList.remove('active'));
+  thumb.classList.add('active');
+}
+
+function selectSize(btn, size) {
+  document.querySelectorAll('.size-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+}
+</script>
+
+<%- include('partials/footer') %>
+
+
+</body>
+</html>

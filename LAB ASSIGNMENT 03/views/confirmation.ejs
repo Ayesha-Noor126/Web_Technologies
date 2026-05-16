@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   
+    <link rel="stylesheet" href="/stylesheets/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
+
+
+
+<%- include('partials/header') %>
+
+<div class="confirmation-page">
+  <div class="confirmation-box">
+
+    <!-- SUCCESS ICON -->
+    <div class="confirmation-icon">
+      <i class="fa-solid fa-circle-check"></i>
+    </div>
+
+    <h1>Order Placed Successfully!</h1>
+    <p class="confirmation-subtitle">Thank you for shopping with Royal Tag</p>
+
+    <!-- ORDER DETAILS -->
+    <div class="confirmation-details">
+      <div class="conf-row">
+        <span>Order ID</span>
+        <span class="conf-value">#<%= order._id.toString().slice(-8).toUpperCase() %></span>
+      </div>
+      <div class="conf-row">
+        <span>Date</span>
+        <span class="conf-value"><%= order.createdAt.toDateString() %></span>
+      </div>
+      <div class="conf-row">
+        <span>Payment</span>
+        <span class="conf-value">Cash on Delivery</span>
+      </div>
+      <div class="conf-row">
+        <span>Delivery Address</span>
+        <span class="conf-value"><%= order.address %></span>
+      </div>
+      <div class="conf-row">
+        <span>Phone</span>
+        <span class="conf-value"><%= order.phone %></span>
+      </div>
+      <div class="conf-row total">
+        <span>Total Amount</span>
+        <span class="conf-value">Rs.<%= order.total.toLocaleString() %></span>
+      </div>
+    </div>
+
+    <!-- ORDER ITEMS -->
+    <div class="confirmation-items">
+      <h3>Items Ordered</h3>
+      <% order.items.forEach(item => { %>
+        <% if (item.product) { %>
+          <div class="conf-item">
+            <img src="<%= item.product.images[0] %>" alt="<%= item.product.name %>">
+            <div>
+              <p class="conf-item-name"><%= item.product.name %></p>
+              <p class="conf-item-meta">Qty: <%= item.quantity %> × Rs.<%= item.price.toLocaleString() %></p>
+            </div>
+            <p class="conf-item-total">Rs.<%= (item.price * item.quantity).toLocaleString() %></p>
+          </div>
+        <% } %>
+      <% }) %>
+    </div>
+
+    <!-- STATUS MESSAGE -->
+    <div class="confirmation-notice">
+      <i class="fa-solid fa-truck"></i>
+      <p>Your order is <strong>confirmed</strong> and will be delivered within <strong>3-5 working days</strong>.</p>
+    </div>
+
+    <!-- BUTTONS -->
+    <div class="confirmation-btns">
+      <a href="/orders" class="btn-checkout">VIEW MY ORDERS</a>
+      <a href="/" class="btn-continue">CONTINUE SHOPPING</a>
+    </div>
+
+  </div>
+</div>
+
+<%- include('partials/footer') %>
+
+</body>
+</html>

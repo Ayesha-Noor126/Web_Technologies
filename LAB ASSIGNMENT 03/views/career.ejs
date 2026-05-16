@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/stylesheets/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
+
+
+
+
+
+
+
+
+<%- include('partials/header') %>
+
+<div class="nav-overlay"></div>
+
+<div class="career-page">
+
+    <div class="career-hero">
+        <h1>JOIN OUR TEAM</h1>
+        <p>Be part of a brand that blends heritage craftsmanship with modern style. We're always looking for passionate people to grow with Royal Tag.</p>
+    </div>
+
+    <div class="career-content">
+
+
+        <div class="application-section" id="application-form">
+            <h2>APPLICATION FORM</h2>
+            <p>Royal Tag recruitment is handled exclusively by our centralized HR Department in Lahore. No one is authorized to offer jobs or perks outside of HR. Send applications to <strong>hr@royaltag.com.pk</strong> or fill the form below.</p>
+
+            <form action="/career" method="POST" enctype="multipart/form-data">
+                <div class="app-form-grid">
+
+                    <div class="form-group">
+                        <label>First Name *</label>
+                        <input type="text" name="firstName" required placeholder="Ahmed">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Last Name *</label>
+                        <input type="text" name="lastName" required placeholder="Khan">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Email Address *</label>
+                        <input type="email" name="email" required placeholder="ahmed@example.com">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Phone Number *</label>
+                        <input type="tel" name="phone" required placeholder="+92 300 0000000">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Position Applying For *</label>
+                        <select name="position" required>
+                            <option value="" disabled selected>Select a position</option>
+                            <option>Store Manager</option>
+                            <option>Fashion Designer</option>
+                            <option>E-Commerce Executive</option>
+                            <option>Sales Associate</option>
+                            <option>Social Media Manager</option>
+                            <option>Supply Chain Coordinator</option>
+                            <option>Other</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Earliest Start Date *</label>
+                        <input type="date" name="startDate" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Salary Expectations (PKR / Month) *</label>
+                        <input type="text" name="salary" required placeholder="e.g. 60,000 – 80,000">
+                    </div>
+
+                    <div class="form-group">
+                        <label>City / Location *</label>
+                        <input type="text" name="city" required placeholder="Lahore">
+                    </div>
+
+                    <div class="form-group full">
+                        <label>Resume / CV *</label>
+                        <label class="file-upload-label">
+                            <i class="fa-solid fa-file-arrow-up"></i>
+                            <span id="resume-label">Click to upload — PDF, DOC, DOCX (max 1MB)</span>
+                            <input type="file" name="resume" accept=".pdf,.doc,.docx" onchange="document.getElementById('resume-label').textContent = this.files[0]?.name || 'Click to upload'">
+                        </label>
+                    </div>
+
+                    <div class="form-group full">
+                        <label>Cover Letter (Optional)</label>
+                        <label class="file-upload-label">
+                            <i class="fa-solid fa-file-lines"></i>
+                            <span id="cover-label">Click to upload — PDF, DOC, DOCX (max 1MB)</span>
+                            <input type="file" name="coverLetter" accept=".pdf,.doc,.docx" onchange="document.getElementById('cover-label').textContent = this.files[0]?.name || 'Click to upload'">
+                        </label>
+                    </div>
+
+                    <div class="form-group full">
+                        <label>Additional Notes</label>
+                        <textarea name="notes" placeholder="Tell us anything else you'd like us to know..."></textarea>
+                    </div>
+
+                </div>
+
+                <div class="career-disclaimer">
+                    <label>
+                        <input type="checkbox" name="disclaimer" required>
+                        <span>I understand that Royal Tag recruitment/hiring is specifically handled by the centralized HR Department situated at Lahore. No one is authorized to offer any Job or Perks besides the HR Department of Royal Tag. Use hr@royaltag.com.pk for forwarding your job applications nationwide. *</span>
+                    </label>
+                </div>
+
+                <button type="submit" class="btn-submit-app">Submit Application</button>
+            </form>
+        </div>
+
+    </div>
+</div>
+
+<script src="/javascripts/script.js"></script>
+
+<%- include('partials/footer') %>
+
+
+</body>
+</html>
