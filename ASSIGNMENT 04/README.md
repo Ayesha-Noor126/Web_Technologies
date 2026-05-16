@@ -1,23 +1,15 @@
 ## Environment Setup
 
-Create a `.env` file in the root directory and add the following:
-
-CLOUDINARY_CLOUD_NAME=your_cloud_name
-CLOUDINARY_API_KEY=your_api_key
-CLOUDINARY_API_SECRET=your_api_secret
-JWT_SECRET=your_jwt_secret
-MONGO_URI=mongodb://127.0.0.1:27017/mern
-SESSION_SECRET=your_session_secret
-
+### “Rename env.txt to .env before running”
 
 
 ### LOGIN ADMIN 
 
 your@email.com
+   
+password         admin12!
 
-password   admin12!
-
-adminpass  admin!
+adminpass        admin!
 
 
 
