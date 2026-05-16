@@ -1,0 +1,42 @@
+<%- include('partials/admin-header') %>
+
+<div class="admin-page">
+  <%- include('partials/admin-sidebar', { activePage: 'users' }) %>
+
+  <div class="admin-main">
+    <div class="admin-header">
+      <h1>All Users (<%= users.length %>)</h1>
+    </div>
+
+    <div class="admin-table-wrap">
+      <table class="admin-table">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Role</th>
+            <th>Cart Items</th>
+            <th>Joined</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% users.forEach(u => { %>
+            <tr>
+              <td><strong><%= u.name %></strong></td>
+              <td><%= u.email %></td>
+              <td>
+                <span class="<%= u.role === 'admin' ? 'role-admin' : 'role-user' %>">
+                  <%= u.role.toUpperCase() %>
+                </span>
+              </td>
+              <td><%= u.cart.length %> items</td>
+              <td><%= u.createdAt ? new Date(u.createdAt).toDateString() : 'N/A' %></td>
+            </tr>
+          <% }) %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<%- include('partials/admin-footer') %>

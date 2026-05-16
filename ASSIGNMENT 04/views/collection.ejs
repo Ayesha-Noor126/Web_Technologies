@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   
+    <link rel="stylesheet" href="/stylesheets/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
+
+<%- include('partials/header') %>
+
+<div class="collection-page">
+
+  <!-- DARK GREEN HERO BANNER (your original style) -->
+  <div class="collection-hero">
+    <h1><%= title %></h1>
+    <p>
+      <% if (query.type) { %>
+        <%= category.toUpperCase() %> › <%= title.toUpperCase() %>
+      <% } else { %>
+        <%= title.toUpperCase() %>
+      <% } %>
+    </p>
+    <p style="margin-top:6px; font-size:13px; color:#a8c8c0;">
+      <%= total %> Product<%= total !== 1 ? 's' : '' %>
+    </p>
+  </div>
+
+  <div class="collection-container">
+
+    <!-- FILTER BAR -->
+    <form class="filter-bar" method="GET" action="/collection/<%= category %>">
+      <% if (query.type) { %>
+        <input type="hidden" name="type" value="<%= query.type %>">
+      <% } %>
+
+      <input
+        type="text"
+        name="search"
+        placeholder="Search in <%= title %>..."
+        value="<%= query.search %>"
+        class="filter-input"
+      >
+
+      <input
+        type="number"
+        name="minPrice"
+        placeholder="Min Rs."
+        value="<%= query.minPrice %>"
+        class="filter-input filter-price"
+        min="0"
+      >
+
+      <input
+        type="number"
+        name="maxPrice"
+        placeholder="Max Rs."
+        value="<%= query.maxPrice %>"
+        class="filter-input filter-price"
+        min="0"
+      >
+
+      <select name="sort" class="filter-select">
+        <option value="default"    <%= query.sort === 'default'    ? 'selected' : '' %>>Default</option>
+        <option value="price-asc"  <%= query.sort === 'price-asc'  ? 'selected' : '' %>>Price: Low → High</option>
+        <option value="price-desc" <%= query.sort === 'price-desc' ? 'selected' : '' %>>Price: High → Low</option>
+        <option value="name-asc"   <%= query.sort === 'name-asc'   ? 'selected' : '' %>>Name: A → Z</option>
+        <option value="newest"     <%= query.sort === 'newest'     ? 'selected' : '' %>>Newest First</option>
+      </select>
+
+      <button type="submit" class="btn-filter">Apply</button>
+      <a href="/collection/<%= category %><%= query.type ? '?type=' + query.type : '' %>" class="btn-clear">Clear</a>
+    </form>
+
+    <!-- PRODUCT GRID -->
+    <% if (products.length === 0) { %>
+      <div class="no-results">
+        <i class="fa-solid fa-box-open"></i>
+        <p>No products found. Try adjusting your filters.</p>
+        <a href="/collection/<%= category %>" class="btn-filter" style="display:inline-block; margin-top:12px;">View All</a>
+      </div>
+    <% } else { %>
+      <div class="product-grid">
+        <% products.forEach(p => { %>
+          <div class="product-card">
+            <% if (p.badge) { %>
+              <span class="badge"><%= p.badge %></span>
+            <% } %>
+            <% if (p.stock <= 0) { %>
+              <span class="badge" style="background:#cc0000; left:15px; right:auto;">OUT OF STOCK</span>
+            <% } %>
+            <a href="/product/<%= p._id %>">
+              <img src="<%= p.images && p.images[0] ? p.images[0] : '/assest/placeholder.png' %>" alt="<%= p.name %>">
+            </a>
+            <h3><%= p.name %></h3>
+            <p class="price">Rs.<%= p.price.toLocaleString() %></p>
+            <% if (p.stock > 0) { %>
+              <form action="/cart/add" method="POST">
+                <input type="hidden" name="productId" value="<%= p._id %>">
+                <button type="submit" class="btn-add-cart">Add to Cart</button>
+              </form>
+            <% } else { %>
+              <button class="btn-add-cart btn-out-of-stock" disabled>OUT OF STOCK</button>
+            <% } %>
+          </div>
+        <% }) %>
+      </div>
+    <% } %>
+
+    <!-- PAGINATION -->
+    <% if (totalPages > 1) { %>
+      <div class="pagination">
+
+        <% if (currentPage > 1) { %>
+          <a class="page-btn"
+             href="/collection/<%= category %>?page=<%= currentPage-1 %>&search=<%= query.search %>&minPrice=<%= query.minPrice %>&maxPrice=<%= query.maxPrice %>&sort=<%= query.sort %><%= query.type ? '&type='+query.type : '' %>">
+            &laquo; Prev
+          </a>
+        <% } else { %>
+          <span class="page-btn disabled">&laquo; Prev</span>
+        <% } %>
+
+        <% for (let i = 1; i <= totalPages; i++) { %>
+          <% if (i === currentPage) { %>
+            <span class="page-btn active"><%= i %></span>
+          <% } else { %>
+            <a class="page-btn"
+               href="/collection/<%= category %>?page=<%= i %>&search=<%= query.search %>&minPrice=<%= query.minPrice %>&maxPrice=<%= query.maxPrice %>&sort=<%= query.sort %><%= query.type ? '&type='+query.type : '' %>">
+              <%= i %>
+            </a>
+          <% } %>
+        <% } %>
+
+        <% if (currentPage < totalPages) { %>
+          <a class="page-btn"
+             href="/collection/<%= category %>?page=<%= currentPage+1 %>&search=<%= query.search %>&minPrice=<%= query.minPrice %>&maxPrice=<%= query.maxPrice %>&sort=<%= query.sort %><%= query.type ? '&type='+query.type : '' %>">
+            Next &raquo;
+          </a>
+        <% } else { %>
+          <span class="page-btn disabled">Next &raquo;</span>
+        <% } %>
+
+      </div>
+      <p class="page-info">Page <%= currentPage %> of <%= totalPages %></p>
+    <% } %>
+
+  </div>
+</div>
+
+<%- include('partials/footer') %>
+</body>
+</html>

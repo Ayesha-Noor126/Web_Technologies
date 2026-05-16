@@ -1,0 +1,95 @@
+<%- include('partials/admin-header') %>
+
+<div class="admin-page">
+  <%- include('partials/admin-sidebar', { activePage: 'dashboard' }) %>
+
+  <div class="admin-main">
+    <div class="admin-header">
+      <div>
+        <h1>Dashboard</h1>
+        <p>Welcome back, <%= user.name %></p>
+      </div>
+    </div>
+
+    <div class="admin-stats">
+      <div class="stat-card">
+        <div class="stat-icon" style="background:#e8f5e9;">
+          <i class="fa-solid fa-money-bill" style="color:#2e7d32;"></i>
+        </div>
+        <div>
+          <p class="stat-label">Total Revenue</p>
+          <p class="stat-value">Rs.<%= totalRevenue.toLocaleString() %></p>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon" style="background:#fff3e0;">
+          <i class="fa-solid fa-box" style="color:#e65100;"></i>
+        </div>
+        <div>
+          <p class="stat-label">Total Orders</p>
+          <p class="stat-value"><%= totalOrders %></p>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon" style="background:#fce4ec;">
+          <i class="fa-solid fa-clock" style="color:#c62828;"></i>
+        </div>
+        <div>
+          <p class="stat-label">Pending Orders</p>
+          <p class="stat-value"><%= pendingOrders %></p>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon" style="background:#e3f2fd;">
+          <i class="fa-solid fa-shirt" style="color:#1565c0;"></i>
+        </div>
+        <div>
+          <p class="stat-label">Total Products</p>
+          <p class="stat-value"><%= totalProducts %></p>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon" style="background:#f3e5f5;">
+          <i class="fa-solid fa-users" style="color:#6a1b9a;"></i>
+        </div>
+        <div>
+          <p class="stat-label">Total Users</p>
+          <p class="stat-value"><%= totalUsers %></p>
+        </div>
+      </div>
+    </div>
+
+    <div class="admin-section">
+      <div class="admin-section-header">
+        <h2>Recent Orders</h2>
+        <a href="/admin/orders" class="admin-btn-sm">View All</a>
+      </div>
+      <div class="admin-table-wrap">
+        <table class="admin-table">
+          <thead>
+            <tr>
+              <th>Order ID</th>
+              <th>Customer</th>
+              <th>Total</th>
+              <th>Status</th>
+              <th>Date</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% recentOrders.forEach(order => { %>
+              <tr>
+                <td>#<%= order._id.toString().slice(-8).toUpperCase() %></td>
+                <td><%= order.user ? order.user.name : 'Deleted User' %></td>
+                <td>Rs.<%= order.total.toLocaleString() %></td>
+                <td><span class="status-badge <%= order.status %>"><%= order.status.toUpperCase() %></span></td>
+                <td><%= order.createdAt.toDateString() %></td>
+              </tr>
+            <% }) %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%- include('partials/admin-footer') %>

@@ -1,0 +1,71 @@
+<%- include('partials/admin-header') %>
+
+<div class="admin-page">
+  <%- include('partials/admin-sidebar', { activePage: 'orders' }) %>
+
+  <div class="admin-main">
+    <div class="admin-header">
+      <h1>All Orders (<%= orders.length %>)</h1>
+    </div>
+
+    <% if (orders.length === 0) { %>
+      <div style="text-align:center; padding:60px; background:white; border-radius:8px;">
+        <i class="fa-solid fa-box-open" style="font-size:50px; color:#ccc; margin-bottom:15px; display:block;"></i>
+        <p style="color:#888;">No orders yet</p>
+      </div>
+    <% } %>
+
+    <% orders.forEach(order => { %>
+      <div class="admin-order-card">
+        <div class="admin-order-header">
+          <div>
+            <p class="admin-order-id">#<%= order._id.toString().slice(-8).toUpperCase() %></p>
+            <p class="admin-order-meta">
+              <%= order.createdAt.toDateString() %> |
+              <strong><%= order.user ? order.user.name : 'Deleted User' %></strong>
+              <% if (order.user) { %> | <%= order.user.email %><% } %>
+            </p>
+            <p class="admin-order-meta">
+              <i class="fa-solid fa-phone"></i> <%= order.phone %> &nbsp;|&nbsp;
+              <i class="fa-solid fa-location-dot"></i> <%= order.address %>
+            </p>
+          </div>
+          <div class="admin-order-right">
+            <p class="admin-order-total">Rs.<%= order.total.toLocaleString() %></p>
+            <form action="/admin/orders/status/<%= order._id %>" method="POST" class="status-form">
+              <select name="status" onchange="this.form.submit()" class="status-select">
+                <option value="pending"   <%= order.status === 'pending'   ? 'selected':'' %>>Pending</option>
+                <option value="confirmed" <%= order.status === 'confirmed' ? 'selected':'' %>>Confirmed</option>
+                <option value="shipped"   <%= order.status === 'shipped'   ? 'selected':'' %>>Shipped</option>
+                <option value="delivered" <%= order.status === 'delivered' ? 'selected':'' %>>Delivered</option>
+                <option value="cancelled" <%= order.status === 'cancelled' ? 'selected':'' %>>Cancelled</option>
+              </select>
+            </form>
+          </div>
+        </div>
+
+        <div class="admin-order-items">
+          <% order.items.forEach(item => { %>
+            <% if (item.product) { %>
+              <div class="admin-order-item">
+                <img src="<%= item.product.images[0] %>" alt="<%= item.product.name %>">
+                <span><strong><%= item.product.name %></strong> × <%= item.quantity %></span>
+                <span>Rs.<%= (item.price * item.quantity).toLocaleString() %></span>
+              </div>
+            <% } else { %>
+              <div class="admin-order-item">
+                <div style="width:45px; height:55px; background:#f5f5f5; border-radius:3px; display:flex; align-items:center; justify-content:center;">
+                  <i class="fa-solid fa-box" style="color:#ccc;"></i>
+                </div>
+                <span style="color:#aaa;">Product deleted × <%= item.quantity %></span>
+                <span>Rs.<%= (item.price * item.quantity).toLocaleString() %></span>
+              </div>
+            <% } %>
+          <% }) %>
+        </div>
+      </div>
+    <% }) %>
+  </div>
+</div>
+
+<%- include('partials/admin-footer') %>

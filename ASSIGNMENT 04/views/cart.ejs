@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   
+    <link rel="stylesheet" href="/stylesheets/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
+
+
+
+
+<%- include('partials/header') %>
+
+<div class="cart-page">
+  <div class="cart-container">
+
+    <h1 class="cart-title">YOUR CART</h1>
+
+<% if (error === 'maxstock') { %>
+  <div class="stock-error">
+    <i class="fa-solid fa-triangle-exclamation"></i>
+    You've reached the maximum available stock for this item.
+  </div>
+<% } %>
+<% if (error === 'stockchanged') { %>
+  <div class="stock-error">
+    <i class="fa-solid fa-triangle-exclamation"></i>
+    Some items in your cart are no longer available in the requested quantity.
+  </div>
+<% } %>
+
+    <% if (cart.length === 0) { %>
+      <div class="cart-empty">
+        <i class="fa-solid fa-cart-shopping"></i>
+        <p>Your cart is empty</p>
+        <a href="/" class="btn-continue">CONTINUE SHOPPING</a>
+      </div>
+
+    <% } else { %>
+      <div class="cart-layout">
+
+        <!-- LEFT: CART ITEMS -->
+        <div class="cart-items">
+          <% cart.forEach(item => { %>
+            <div class="cart-item">
+              <img src="<%= item.product.images[0] %>" alt="<%= item.product.name %>">
+              <div class="cart-item-info">
+                <h3><%= item.product.name %></h3>
+                <p class="cart-item-price">Rs.<%= item.product.price.toLocaleString() %></p>
+                <form action="/cart/update" method="POST" class="qty-form">
+                  <input type="hidden" name="productId" value="<%= item.product._id %>">
+                  <div class="qty-controls">
+                    <button type="submit" name="quantity" value="<%= item.quantity - 1 %>">−</button>
+                    <span><%= item.quantity %></span>
+                    <button type="submit" name="quantity" value="<%= item.quantity + 1 %>">+</button>
+                  </div>
+                </form>
+                <p class="cart-item-subtotal">Subtotal: Rs.<%= (item.product.price * item.quantity).toLocaleString() %></p>
+              </div>
+              <form action="/cart/remove" method="POST">
+                <input type="hidden" name="productId" value="<%= item.product._id %>">
+                <button type="submit" class="btn-remove"><i class="fa-solid fa-xmark"></i></button>
+              </form>
+            </div>
+          <% }) %>
+        </div>
+
+        <!-- RIGHT: ORDER SUMMARY -->
+        <div class="cart-summary">
+          <h2>ORDER SUMMARY</h2>
+          <div class="summary-row">
+            <span>Subtotal</span>
+            <span>Rs.<%= total.toLocaleString() %></span>
+          </div>
+          <div class="summary-row">
+            <span>Shipping</span>
+            <span><%= total >= 5000 ? 'FREE' : 'Rs.200' %></span>
+          </div>
+          <div class="summary-divider"></div>
+          <div class="summary-row total-row">
+            <span>Total</span>
+            <span>Rs.<%= (total >= 5000 ? total : total + 200).toLocaleString() %></span>
+          </div>
+          <a href="/checkout" class="btn-checkout">PROCEED TO CHECKOUT</a>
+          <a href="/" class="btn-continue">CONTINUE SHOPPING</a>
+        </div>
+
+      </div>
+    <% } %>
+
+  </div>
+</div>
+
+<%- include('partials/footer') %>
+
+
+</body></html>

@@ -1,0 +1,174 @@
+
+<%# views/partials/header.ejs — NO script tag here, script is in footer.ejs %>
+<link rel="stylesheet" href="/stylesheets/style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+<header>
+    <div class="container">
+
+        <button class="hamburger-btn" id="hamburger-btn" aria-label="Toggle navigation menu" aria-expanded="false">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+
+        
+
+        <div class="logo">
+  <a href="/"><img src="/assest/Website_Logo_-_Blue_120x.avif" alt="Royal Tag"></a>
+</div>
+        <nav id="main-nav">
+  <ul class="menu">
+
+    <!-- NEW ARRIVALS -->
+    <li class="has-dropdown">
+      <a href="/collection/new-arrivals" class="red">NEW ARRIVALS</a>
+      <ul class="dropdown">
+        <li><a href="/collection/new-arrivals?type=new-this-week">New This Week</a></li>
+        <li><a href="/collection/polo-shirts?type=polo">Best Sellers</a></li>
+        <li><a href="/collection/new-arrivals?type=online-exclusives">Online Exclusives</a></li>
+      </ul>
+    </li>
+
+    <!-- SUITS & COATS -->
+    <li class="has-dropdown">
+      <a href="/collection/suits">SUITS & COATS</a>
+      <ul class="dropdown">
+        <li><a href="/collection/suits?type=2-piece">2-Piece Suits</a></li>
+        <li><a href="/collection/suits?type=3-piece">3-Piece Suits</a></li>
+        <li><a href="/collection/suits?type=waistcoat">Waistcoat Sets</a></li>
+        <li><a href="/collection/suits?type=tuxedo">Tuxedos</a></li>
+        <li><a href="/collection/suits?type=blazer">Blazers</a></li>
+        <li><a href="/collection/suits?type=overcoat">Overcoats</a></li>
+        <li><a href="/collection/suits?type=wool-coat">Wool Coats</a></li>
+      </ul>
+    </li>
+
+    <!-- DRESS SHIRTS & PANTS -->
+    <li class="has-dropdown">
+      <a href="/collection/formal-shirts">DRESS SHIRTS & PANTS</a>
+      <ul class="dropdown">
+        <li><a href="/collection/formal-shirts?type=formal">Formal Shirts</a></li>
+        <li><a href="/collection/casual-shirts?type=casual">Casual Shirts</a></li>
+        <li><a href="/collection/polo-shirts?type=polo">Polo Shirts</a></li>
+        <li><a href="/collection/t-shirts?type=t-shirts">T-Shirts</a></li>
+        <li><a href="/collection/trousers?type=trousers">Trousers</a></li>
+        <li><a href="/collection/chinos?type=chinos">Chinos</a></li>
+        <li><a href="/collection/jeans?type=jeans">Jeans</a></li>
+        <li><a href="/collection/trousers?type=trousers">Basic 5 Pockets</a></li>
+      </ul>
+    </li>
+
+    <!-- ACCESSORIES -->
+    <li class="has-dropdown">
+      <a href="/collection/accessories">ACCESSORIES</a>
+      <ul class="dropdown">
+        <li><a href="/collection/accessories?type=ties">Ties & Bow Ties</a></li>
+        <li><a href="/collection/accessories?type=belts">Belts</a></li>
+        <li><a href="/collection/accessories?type=pocket-squares">Pocket Squares</a></li>
+        <li><a href="/collection/accessories?type=cufflinks">Cufflinks</a></li>
+        <li><a href="/collection/accessories?type=socks">Socks</a></li>
+      </ul>
+    </li>
+
+    <!-- TEHWAR -->
+    <li class="has-dropdown">
+      <a href="/collection/tehwar">TEHWAR</a>
+      <ul class="dropdown">
+        <li><a href="/collection/tehwar?type=casual">Casuals</a></li>
+        <li><a href="/collection/tehwar?type=formal">Formals</a></li>
+        <li><a href="/collection/tehwar?type=tehwar">Tehwar</a></li>
+        <li><a href="/collection/tehwar?type=winter">Winter</a></li>
+        <li><a href="/collection/accessories">Accessories</a></li>
+      </ul>
+    </li>
+
+    <!-- SHOP ONLINE ONLY -->
+    <li class="has-dropdown">
+      <a href="/collection/online-only" class="red">SHOP ONLINE ONLY</a>
+      <ul class="dropdown">
+        <li><a href="/collection/online-only?type=exclusive-shirts">Exclusive Shirts</a></li>
+        <li><a href="/collection/online-only?type=exclusive-suits">Exclusive Suits</a></li>
+        <li><a href="/collection/online-only?type=limited">Limited Edition</a></li>
+      </ul>
+    </li>
+
+    <!-- SALE -->
+    <li class="has-dropdown">
+      <a href="/collection/sale">SALE</a>
+      <ul class="dropdown">
+        <li class="has-sub">
+          <a href="/collection/sale">Up to 30% Off</a>
+          <ul class="sub-dropdown">
+            <li><a href="/collection/formal-shirts?type=formal">Shirts</a></li>
+            <li><a href="/collection/suits?type=2-piece">Suits</a></li>
+            <li><a href="/collection/trousers?type=trousers">Pants</a></li>
+          </ul>
+        </li>
+        <li><a href="/collection/sale?type=clearance">Clearance</a></li>
+        <li><a href="/collection/sale?type=bundle">Bundle Deals</a></li>
+      </ul>
+    </li>
+
+  </ul>
+</nav>
+
+        <div class="header-icons">
+
+            <a href="#" id="searchOpenBtn" title="Search">
+                <i class="fa-solid fa-magnifying-glass"></i>
+            </a>
+
+            <% if (user) { %>
+                <div class="user-menu has-dropdown">
+                    <i class="fa-solid fa-user"></i>
+                    <span><%= user.name.split(' ')[0] %></span>
+                    <ul class="dropdown">
+                        <li><a href="/users/profile">My Profile</a></li>
+                        <li><a href="/orders">My Orders</a></li>
+                        <% if (user.role === 'admin') { %>
+                            <li><a href="/admin/dashboard" class="red">Admin Panel</a></li>
+                        <% } %>
+                        <li><a href="/users/logout">Logout</a></li>
+                    </ul>
+                </div>
+            <% } else { %>
+                <a href="/users/login" title="Login">
+                    <i class="fa-solid fa-user"></i>
+                </a>
+            <% } %>
+
+            <div class="cart">
+                <a href="/cart">
+                    <i class="fa-solid fa-cart-shopping"></i>
+                </a>
+                <span class="cart-count">
+                    <% if (user) { %><%= user.cartCount || 0 %><% } else { %>0<% } %>
+                </span>
+            </div>
+
+        </div>
+
+    </div>
+</header>
+
+<!-- SEARCH OVERLAY -->
+<div class="search-overlay" id="searchOverlay">
+    <div class="search-overlay-box">
+        <div class="search-top">
+            <button class="search-close-btn" id="searchCloseBtn">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            <div class="search-input-wrap">
+                <input type="text" id="searchInput" placeholder="Search products..." autocomplete="off">
+                <i class="fa-solid fa-magnifying-glass search-icon-inside"></i>
+            </div>
+        </div>
+        <div class="search-results" id="searchResults">
+            <p class="search-placeholder-text">Start typing to search products...</p>
+        </div>
+    </div>
+</div>
+
+<!-- Dark overlay behind mobile nav -->
+<div class="nav-overlay" id="nav-overlay"></div>

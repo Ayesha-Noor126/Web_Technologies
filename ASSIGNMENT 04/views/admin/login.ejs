@@ -1,0 +1,58 @@
+<%- include('partials/admin-header') %>
+
+<div class="admin-login-page">
+  <div class="admin-login-box">
+
+    <div class="admin-login-logo">
+      <img src="/assest/Website_Logo_-_Blue_120x.avif" alt="Royal Tag">
+      <h2>ROYAL TAG</h2>
+    </div>
+
+    <h1>ADMIN ACCESS</h1>
+    <p class="admin-login-subtitle">Authorized personnel only</p>
+
+    <% if (error) { %>
+      <div class="admin-alert error">
+        <i class="fa-solid fa-triangle-exclamation"></i> <%= error %>
+      </div>
+    <% } %>
+
+    <form action="/admin/login" method="POST" class="admin-login-form">
+
+      <div class="login-form-group">
+        <label>Email Address</label>
+        <div class="login-input-wrap">
+          <i class="fa-solid fa-envelope"></i>
+          <input type="email" name="email" placeholder="admin@royaltag.com" required>
+        </div>
+      </div>
+
+      <div class="login-form-group">
+        <label>Account Password</label>
+        <div class="login-input-wrap">
+          <i class="fa-solid fa-lock"></i>
+          <input type="password" name="password" placeholder="Your login password" required>
+        </div>
+      </div>
+
+      <div class="login-form-group">
+        <label>Admin Password <span style="color:#dc3545;">★</span></label>
+        <div class="login-input-wrap">
+          <i class="fa-solid fa-shield-halved"></i>
+          <input type="password" name="adminPassword" placeholder="Secret admin password" required>
+        </div>
+        <small>This is a separate secret password for admin access</small>
+      </div>
+
+      <button type="submit" class="admin-login-btn">
+        <i class="fa-solid fa-right-to-bracket"></i> ACCESS ADMIN PANEL
+      </button>
+
+    </form>
+
+    <a href="/" class="admin-back-link">← Back to Website</a>
+
+  </div>
+</div>
+
+<%- include('partials/admin-footer') %>
