@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/stylesheets/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
+
+<%- include('partials/header') %>
+
+<!-- HERO SLIDER -->
+<div class="hero-slider">
+  <div class="hero-slides">
+
+    <section class="hero hero-slide active" style="background-image: url('/assest/image.png');">
+      <a href="/collection/polo-shirts" class="hero-link"></a>
+    </section>
+
+    <section class="hero hero-slide" style="background-image: url('/assest/Polo Shirt.jpg');">
+      <a href="/collection/polo-shirts" class="hero-link"></a>
+    </section>
+
+    <section class="hero hero-slide" style="background-image: url('/assest/T-shirt.webp');">
+      <a href="/collection/t-shirts" class="hero-link"></a>
+    </section>
+
+    <section class="hero hero-slide" style="background-image: url('/assest/tehwar collection.jpg');">
+      <a href="/collection/tehwar" class="hero-link"></a>
+    </section>
+
+  </div>
+
+  <button class="hero-arrow hero-prev" id="heroPrev">
+    <i class="fa-solid fa-chevron-left"></i>
+  </button>
+  <button class="hero-arrow hero-next" id="heroNext">
+    <i class="fa-solid fa-chevron-right"></i>
+  </button>
+
+  <div class="hero-dots">
+    <span class="hero-dot active" onclick="goToSlide(0)"></span>
+    <span class="hero-dot" onclick="goToSlide(1)"></span>
+    <span class="hero-dot" onclick="goToSlide(2)"></span>
+    <span class="hero-dot" onclick="goToSlide(3)"></span>
+  </div>
+</div>
+  
+
+<!-- PRODUCTS -->
+<section class="products">
+  <div class="container-full">
+    <h2>THE HERITAGE POLOS</h2>
+    <div class="product-grid" id="productGrid">
+      <% products.forEach((product, index) => { %>
+        <div class="product-card <%= index >= 4 ? 'hidden-product' : '' %>">
+          <% if (product.badge) { %>
+            <span class="badge"><%= product.badge %></span>
+          <% } %>
+          <% if (product.stock <= 0) { %>
+            <span class="badge" style="background:#cc0000; left:15px; right:auto;">OUT OF STOCK</span>
+          <% } %>
+          <a href="/product/<%= product._id %>">
+            <img src="<%= product.images[0] %>" alt="<%= product.name %>">
+          </a>
+          <h3><%= product.name %></h3>
+          <p class="price">Rs.<%= product.price.toLocaleString() %></p>
+          <% if (product.stock > 0) { %>
+            <form action="/cart/add" method="POST">
+              <input type="hidden" name="productId" value="<%= product._id %>">
+              <button type="submit" class="btn-add-cart">Add to Cart</button>
+            </form>
+          <% } else { %>
+            <button class="btn-add-cart btn-out-of-stock" disabled>OUT OF STOCK</button>
+          <% } %>
+        </div>
+      <% }) %>
+    </div>
+    <button class="btn-show-more" id="showMoreBtn">SHOW MORE</button>
+  </div>
+</section>
+
+<!-- SHOP BY STYLE -->
+<section class="shop-style">
+  <div class="shop-style-header">
+    <h2>SHOP BY STYLE</h2>
+    <p>From crisp formals to casuals find the look that fits every occasion</p>
+  </div>
+  <div class="style-grid">
+
+    <a href="/collection/suits" class="style-card">
+      <img src="/assest/formals.webp" alt="Formals">
+      <div class="style-overlay">
+        <h3>FORMALS</h3>
+        <p>Sophistication meets confidence</p>
+        <span class="style-link">Shop Now →</span>
+      </div>
+    </a>
+
+    <a href="/collection/casual-shirts" class="style-card">
+      <img src="/assest/causals.webp" alt="Casuals">
+      <div class="style-overlay">
+        <h3>CASUALS</h3>
+        <p>Designed for everyday comfort</p>
+        <span class="style-link">Shop Now →</span>
+      </div>
+    </a>
+
+    <a href="/collection/tehwar" class="style-card">
+      <img src="/assest/tehwar.webp" alt="Tehwar">
+      <div class="style-overlay">
+        <h3>TEHWAR</h3>
+        <p>Tradition meets modern sophistication</p>
+        <span class="style-link">Shop Now →</span>
+      </div>
+    </a>
+
+    <a href="/collection/accessories" class="style-card">
+      <img src="/assest/accessoires.webp" alt="Accessories">
+      <div class="style-overlay">
+        <h3>ACCESSORIES</h3>
+        <p>Finish every look the right way</p>
+        <span class="style-link">Shop Now →</span>
+      </div>
+    </a>
+
+  </div>
+</section>
+<!-- REVIEWS CAROUSEL -->
+<section class="reviews">
+  <div class="container-full">
+    <h2>What Our Customers Say</h2>
+    <div class="stars">⭐⭐⭐⭐⭐</div>
+    <p class="subtitle">Real experiences, honest feedback, and genuine trust in Royal Tag.</p>
+
+    <div class="reviews-carousel" id="reviewsCarousel">
+      <div class="reviews-track" id="reviewsTrack">
+
+        <div class="review-card">
+          <div class="stars">⭐⭐⭐⭐⭐</div>
+          <h3>Nice</h3>
+          <p>Amazing quality and fast delivery. Will definitely buy again!</p>
+          <p class="reviewer">Noman Yousaf</p>
+        </div>
+
+        <div class="review-card">
+          <div class="stars">⭐⭐⭐⭐⭐</div>
+          <h3>Amazing</h3>
+          <p>The fabric quality is outstanding. Exactly as shown in pictures.</p>
+          <p class="reviewer">Syed M Ali Akbar</p>
+        </div>
+
+        <div class="review-card">
+          <div class="stars">⭐⭐⭐⭐⭐</div>
+          <h3>Great</h3>
+          <p>Great quality product, packaging was excellent too.</p>
+          <p class="reviewer">Usama</p>
+        </div>
+
+        <div class="review-card">
+          <div class="stars">⭐⭐⭐⭐⭐</div>
+          <h3>Good Quality</h3>
+          <p>Good quality product, very satisfied with the purchase.</p>
+          <p class="reviewer">Talha Paracha</p>
+        </div>
+
+        <div class="review-card">
+          <div class="stars">⭐⭐⭐⭐⭐</div>
+          <h3>Excellent</h3>
+          <p>Best clothing brand in Pakistan. Premium quality every time.</p>
+          <p class="reviewer">Ahmed Khan</p>
+        </div>
+
+        <div class="review-card">
+          <div class="stars">⭐⭐⭐⭐⭐</div>
+          <h3>Loved it</h3>
+          <p>Fits perfectly and looks even better in person. Highly recommend!</p>
+          <p class="reviewer">Bilal Raza</p>
+        </div>
+
+      </div>
+
+      <!-- REVIEW ARROWS -->
+      <button class="review-arrow review-prev" id="reviewPrev">
+        <i class="fa-solid fa-chevron-left"></i>
+      </button>
+      <button class="review-arrow review-next" id="reviewNext">
+        <i class="fa-solid fa-chevron-right"></i>
+      </button>
+    </div>
+  </div>
+</section>
+
+<%- include('partials/footer') %>
+
+
+</body>
+</html>

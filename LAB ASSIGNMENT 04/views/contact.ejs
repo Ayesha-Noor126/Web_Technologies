@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/stylesheets/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
+
+<%- include('partials/header') %>
+
+<main class="contact-page">
+
+  <section class="contact-hero">
+    <h1>CONTACT US</h1>
+    <p>We love to hear from you on our customer service, merchandise, website or any topics you want to share with us. Your comments and suggestions will be appreciated.</p>
+  </section>
+
+  <section class="contact-main">
+    <h2>GET IN TOUCH</h2>
+
+<% if (locals.success) { %>
+  <div class="alert-success">
+    <%= success %>
+  </div>
+<% } %>
+
+
+    <div class="contact-grid">
+
+      <!-- LEFT: Form -->
+      <div class="contact-form-side">
+        <h3>Send us an email</h3>
+        <p>Ask us anything! We're here to help.</p>
+
+        <form class="contact-form" action="/contact" method="POST">
+
+          <div class="form-group">
+            <label for="name">Name</label>
+            <input type="text" id="name" name="name" placeholder="">
+          </div>
+
+          <div class="form-group">
+            <label for="phone">Phone Number</label>
+            <input type="tel" id="phone" name="phone" placeholder="">
+          </div>
+
+          <div class="form-group">
+            <label for="email">Email <span class="required">*</span></label>
+            <input type="email" id="email" name="email" required placeholder="">
+          </div>
+
+          <div class="form-group">
+            <label for="comment">Comment <span class="required">*</span></label>
+            <textarea id="comment" name="comment" rows="7" required></textarea>
+          </div>
+
+          <button type="submit" class="btn-submit">SUBMIT CONTACT</button>
+
+        </form>
+      </div>
+
+      <!-- RIGHT: Info -->
+      <div class="contact-info-side">
+        <h3>We Are Here To Help</h3>
+        <p>If you have an issue or question that requires immediate assistance, you can click the button below to chat live with a Customer Service representative. If we aren't available, drop us an email to the left and we will get back to you within 20-36 hours!</p>
+
+        <a href="https://wa.me/923321491111" target="_blank" class="btn-message">MESSAGE US</a>
+
+        <div class="contact-details">
+          <p class="detail-label">Call or Whatsapp us:</p>
+          <p>+92-42-38835588</p>
+          <p>+92-332 1491111</p>
+          <p>+92 333 1214521</p>
+          <p><a href="mailto:info@royaltag.com.pk">info@royaltag.com.pk</a></p>
+
+          <p class="detail-label opening">Opening Hours:</p>
+          <p>MON to SAT: 9:00AM - 10:00PM</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+</main>
+
+<%- include('partials/footer') %>
+</body>
+</html>

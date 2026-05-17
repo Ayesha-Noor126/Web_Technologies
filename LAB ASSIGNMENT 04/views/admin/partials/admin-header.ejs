@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Panel — Royal Tag</title>
+  <link rel="stylesheet" href="/stylesheets/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body class="admin-body">
+
+<% if (typeof success_msg !== 'undefined' && success_msg.length > 0) { %>
+  <div class="admin-toast success" id="adminToast">
+    <div class="admin-toast-icon"><i class="fa-solid fa-circle-check"></i></div>
+    <div class="admin-toast-body">
+      <p class="admin-toast-title">Success</p>
+      <p class="admin-toast-msg"><%= success_msg %></p>
+    </div>
+    <button class="admin-toast-close" onclick="this.parentElement.remove()">
+      <i class="fa-solid fa-xmark"></i>
+    </button>
+  </div>
+<% } %>
+
+<% if (typeof error_msg !== 'undefined' && error_msg.length > 0) { %>
+  <div class="admin-toast error" id="adminToast">
+    <div class="admin-toast-icon"><i class="fa-solid fa-triangle-exclamation"></i></div>
+    <div class="admin-toast-body">
+      <p class="admin-toast-title">Error</p>
+      <p class="admin-toast-msg"><%= error_msg %></p>
+    </div>
+    <button class="admin-toast-close" onclick="this.parentElement.remove()">
+      <i class="fa-solid fa-xmark"></i>
+    </button>
+  </div>
+<% } %>
+
+<script>
+  // Auto-dismiss after 4 seconds
+  setTimeout(() => {
+    const toast = document.getElementById('adminToast');
+    if (toast) {
+      toast.style.opacity = '0';
+      toast.style.transform = 'translateX(110%)';
+      setTimeout(() => toast.remove(), 400);
+    }
+  }, 4000);
+</script>
