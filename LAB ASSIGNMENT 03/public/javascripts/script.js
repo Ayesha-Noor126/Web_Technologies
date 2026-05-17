@@ -119,7 +119,7 @@
                         }
                         var html = '<p class="search-results-label">PRODUCT RESULTS</p><div class="search-product-grid">';
                         products.forEach(function (p) {
-                            html += '<a class="search-product-card" href="/products/' + p._id + '">' +
+                            html += '<a class="search-product-card" href="/product/' + p._id + '">' +
                                 '<div class="search-product-img-wrap">' +
                                 (p.badge ? '<span class="search-badge">' + p.badge + '</span>' : '') +
                                 '<img src="' + (p.images && p.images[0] ? p.images[0] : '') + '" alt="' + p.name + '" loading="lazy">' +
