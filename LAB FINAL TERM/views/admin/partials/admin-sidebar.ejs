@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Panel — Royal Tag</title>
+  <link rel="stylesheet" href="/stylesheets/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body class="admin-body">
+
+
+
+
+
+<!-- MOBILE TOGGLE BUTTON -->
+<button class="admin-mobile-toggle" id="adminToggle" aria-label="Toggle menu">
+  <i class="fa-solid fa-bars"></i>
+</button>
+
+<!-- OVERLAY -->
+<div class="admin-overlay" id="adminOverlay"></div>
+
+<!-- SIDEBAR -->
+<aside class="admin-sidebar" id="adminSidebar">
+  <div class="admin-brand">
+    <img src="/assest/Website_Logo_-_Blue_120x.avif" alt="Royal Tag">
+    <h2>ADMIN PANEL</h2>
+  </div>
+
+  <nav class="admin-nav">
+    <a href="/admin/dashboard"
+      class="admin-link <%= typeof activePage !== 'undefined' && activePage === 'dashboard' ? 'active' : '' %>">
+      <i class="fa-solid fa-gauge"></i> Dashboard
+    </a>
+    <a href="/admin/products"
+      class="admin-link <%= typeof activePage !== 'undefined' && activePage === 'products' ? 'active' : '' %>">
+      <i class="fa-solid fa-shirt"></i> Products
+    </a>
+    <a href="/admin/orders"
+      class="admin-link <%= typeof activePage !== 'undefined' && activePage === 'orders' ? 'active' : '' %>">
+      <i class="fa-solid fa-box"></i> Orders
+    </a>
+    <a href="/admin/users"
+      class="admin-link <%= typeof activePage !== 'undefined' && activePage === 'users' ? 'active' : '' %>">
+      <i class="fa-solid fa-users"></i> Users
+    </a>
+  </nav>
+
+  <div class="admin-sidebar-bottom">
+    <div class="admin-user-info">
+      <i class="fa-solid fa-user-shield"></i>
+      <span><%= typeof user !== 'undefined' ? user.name : 'Admin' %></span>
+    </div>
+    <a href="/admin/logout" class="admin-logout-btn">
+      <i class="fa-solid fa-right-from-bracket"></i> Logout
+    </a>
+  </div>
+</aside>
+
+<script>
+(function () {
+  const toggle  = document.getElementById('adminToggle');
+  const sidebar = document.getElementById('adminSidebar');
+  const overlay = document.getElementById('adminOverlay');
+
+  function openSidebar() {
+    sidebar.classList.add('admin-sidebar-open');
+    overlay.classList.add('admin-overlay-show');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeSidebar() {
+    sidebar.classList.remove('admin-sidebar-open');
+    overlay.classList.remove('admin-overlay-show');
+    document.body.style.overflow = '';
+  }
+
+  toggle?.addEventListener('click', () => {
+    sidebar.classList.contains('admin-sidebar-open') ? closeSidebar() : openSidebar();
+  });
+
+  overlay?.addEventListener('click', closeSidebar);
+
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') closeSidebar();
+  });
+})();
+</script>
+
+
+
+
+</body>
+</html>

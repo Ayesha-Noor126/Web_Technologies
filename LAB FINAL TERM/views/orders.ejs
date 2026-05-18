@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="stylesheet" href="/stylesheets/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
+
+<%- include('partials/header') %>
+
+<div class="orders-page">
+  <div class="orders-container">
+
+    <h1 class="cart-title">MY ORDERS</h1>
+
+    <% if (orders.length === 0) { %>
+      <div class="cart-empty">
+        <i class="fa-solid fa-box-open"></i>
+        <p>You have no orders yet</p>
+        <a href="/" class="btn-continue">START SHOPPING</a>
+      </div>
+
+    <% } else { %>
+      <% orders.forEach(order => { %>
+        <div class="order-card">
+
+          <!-- ORDER HEADER -->
+          <div class="order-header">
+            <div>
+              <p class="order-id">Order ID: <span>#<%= order._id.toString().slice(-8).toUpperCase() %></span></p>
+              <p class="order-date"><%= order.createdAt.toDateString() %></p>
+            </div>
+            <div class="order-status <%= order.status %>">
+              <%= order.status.toUpperCase() %>
+            </div>
+          </div>
+
+          <!-- ORDER ITEMS -->
+          <!-- ORDER ITEMS -->
+<div class="order-items">
+  <% order.items.forEach(item => { %>
+    <% if (item.product) { %>
+      <div class="order-item">
+        <img src="<%= item.product.images[0] %>" alt="<%= item.product.name %>">
+        <div class="order-item-info">
+          <p class="order-item-name"><%= item.product.name %></p>
+          <p class="order-item-meta">Qty: <%= item.quantity %> × Rs.<%= item.price.toLocaleString() %></p>
+        </div>
+        <p class="order-item-total">Rs.<%= (item.price * item.quantity).toLocaleString() %></p>
+      </div>
+    <% } else { %>
+      <!-- Product was deleted -->
+      <div class="order-item">
+        <div class="order-item-deleted">
+          <i class="fa-solid fa-box"></i>
+        </div>
+        <div class="order-item-info">
+          <p class="order-item-name" style="color:#aaa;">Product no longer available</p>
+          <p class="order-item-meta">Qty: <%= item.quantity %> × Rs.<%= item.price.toLocaleString() %></p>
+        </div>
+        <p class="order-item-total">Rs.<%= (item.price * item.quantity).toLocaleString() %></p>
+      </div>
+    <% } %>
+  <% }) %>
+</div>
+
+          <!-- ORDER FOOTER -->
+          <div class="order-footer">
+            <p class="order-address"><i class="fa-solid fa-location-dot"></i> <%= order.address %></p>
+            <p class="order-total">Total: <strong>Rs.<%= order.total.toLocaleString() %></strong></p>
+          </div>
+
+        </div>
+      <% }) %>
+    <% } %>
+
+  </div>
+</div>
+
+<%- include('partials/footer') %>
+
+
+</body></html>

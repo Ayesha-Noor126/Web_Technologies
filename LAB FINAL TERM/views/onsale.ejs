@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/stylesheets/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+</head>
+<body>
+
+<%- include('partials/header') %>
+
+<!-- HERO BANNER -->
+<div class="onsale-hero">
+    <span class="sale-badge-hero">LIMITED TIME OFFERS</span>
+    <h1>ON SALE</h1>
+    <p><%= products.length %> PRODUCT<%= products.length !== 1 ? 'S' : '' %> ON SALE</p>
+</div>
+
+<div class="onsale-container">
+
+    <% if (products.length === 0) { %>
+        <!-- Empty state -->
+        <div class="onsale-empty">
+            <i class="fa-solid fa-tag"></i>
+            <p>No on-sale products available right now. Check back soon!</p>
+            <a href="/" style="display:inline-block;margin-top:16px;background:#2d4a3e;color:#fff;padding:10px 28px;text-decoration:none;letter-spacing:1px;">
+                BACK TO HOME
+            </a>
+        </div>
+    <% } else { %>
+
+        <!-- ALL products injected into DOM — jQuery manages visibility -->
+        <div id="product-list">
+            <% products.forEach(function(p) { %>
+                <div class="product-card onsale-card">
+                    <% if (p.badge) { %>
+                        <span class="badge"><%= p.badge %></span>
+                    <% } %>
+                    <% if (p.stock <= 0) { %>
+                        <span class="badge" style="background:#cc0000; left:15px; right:auto;">OUT OF STOCK</span>
+                    <% } %>
+                    <a href="/product/<%= p._id %>">
+                        <img
+                            src="<%= p.images && p.images[0] ? p.images[0] : '/assest/placeholder.png' %>"
+                            alt="<%= p.name %>"
+                        >
+                    </a>
+                    <h3><%= p.name %></h3>
+                    <p class="price">Rs.<%= p.price.toLocaleString() %></p>
+                    <% if (p.stock > 0) { %>
+                        <form action="/cart/add" method="POST">
+                            <input type="hidden" name="productId" value="<%= p._id %>">
+                            <button type="submit" class="btn-add-cart">Add to Cart</button>
+                        </form>
+                    <% } else { %>
+                        <button class="btn-add-cart btn-out-of-stock" disabled>OUT OF STOCK</button>
+                    <% } %>
+                </div>
+            <% }); %>
+        </div>
+
+        <!-- PAGINATION CONTROLS -->
+        <div class="onsale-pagination">
+            <button id="prev-btn" class="pg-btn" disabled>
+                <i class="fa-solid fa-chevron-left"></i> PREVIOUS
+            </button>
+            <span id="page-indicator">Page 1 of 1</span>
+            <button id="next-btn" class="pg-btn">
+                NEXT <i class="fa-solid fa-chevron-right"></i>
+            </button>
+        </div>
+
+    <% } %>
+
+</div>
+
+<%- include('partials/footer') %>
+
+<!-- jQuery loads first (in head), then onsale.js -->
+<script src="/javascripts/onsale.js"></script>
+
+</body>
+</html>
+
+

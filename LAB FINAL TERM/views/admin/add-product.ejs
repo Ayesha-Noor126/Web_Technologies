@@ -1,0 +1,234 @@
+<%- include('partials/admin-header') %>
+
+<div class="admin-page">
+  <%- include('partials/admin-sidebar', { activePage: 'products' }) %>
+
+  <main class="admin-main">
+    <div class="admin-header">
+      <div>
+        <h1>Add New Product</h1>
+        <p>Fill in the details to list a new product</p>
+      </div>
+      <a href="/admin/products" class="admin-btn-sm">
+        <i class="fa fa-arrow-left"></i> Back
+      </a>
+    </div>
+
+    <% if (typeof error !== 'undefined' && error) { %>
+      <div class="admin-alert error"><i class="fa-solid fa-triangle-exclamation"></i> <%= error %></div>
+    <% } %>
+
+    <div class="admin-form-box">
+      <form action="/admin/products/add" method="POST" class="admin-form" id="productForm">
+
+        <input type="hidden" name="imageUrls" id="cloudinaryUrls" value="">
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>Product Name *</label>
+            <input type="text" name="name" placeholder="e.g. Navy Signature Polo" required>
+          </div>
+          <div class="form-group">
+            <label>Price (Rs.) *</label>
+            <input type="number" name="price" placeholder="e.g. 7450" required min="0">
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>Category *</label>
+            <select name="category" required id="categorySelect" onchange="updateSubcategories()">
+              <option value="">-- Select Category --</option>
+              <option value="polo-shirts">Polo Shirts</option>
+              <option value="suits">Suits & Coats</option>
+              <option value="casual-shirts">Casual Shirts</option>
+              <option value="formal-shirts">Formal Shirts</option>
+              <option value="t-shirts">T-Shirts</option>
+              <option value="tehwar">Tehwar</option>
+              <option value="accessories">Accessories</option>
+              <option value="trousers">Trousers</option>
+              <option value="online-only">Online Only</option>
+              <option value="sale">Sale</option>
+              <option value="new-arrivals">New Arrivals</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Subcategory <small>(optional)</small></label>
+            <select name="subcategory" id="subcategorySelect">
+              <option value="">-- Select Subcategory --</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>Badge <small>(optional)</small></label>
+            <select name="badge">
+              <option value="">No Badge</option>
+              <option value="New" selected>New</option>
+              <option value="Sale">Sale</option>
+              <option value="Hot">Hot</option>
+              <option value="Limited">Limited</option>
+            </select>
+          </div>
+
+          <!-- ✅ ON SALE TOGGLE -->
+          <div class="form-group">
+            <label>On Sale?</label>
+            <div style="display:flex; align-items:center; gap:12px; margin-top:8px;">
+              <label class="size-check-label" style="font-size:15px; font-weight:500;">
+                <input type="checkbox" name="isOnSale" value="true">
+                Mark this product as On Sale
+              </label>
+            </div>
+            <small style="color:#6b7280;">Checking this makes the product appear on the /onsale-products page.</small>
+          </div>
+        </div>
+
+        <script>
+        const subcategoryMap = {
+          'suits':         ['2-piece','3-piece','waistcoat','tuxedo','blazer','overcoat','wool-coat'],
+          'formal-shirts': ['formal'],
+          'casual-shirts': ['casual'],
+          'polo-shirts':   ['polo'],
+          't-shirts':      ['t-shirts'],
+          'trousers':      ['trousers','chinos','jeans'],
+          'accessories':   ['ties','belts','pocket-squares','cufflinks','socks'],
+          'tehwar':        ['casual','formal','tehwar','winter'],
+          'online-only':   ['exclusive-shirts','exclusive-suits','limited'],
+          'new-arrivals':  ['new-this-week','online-exclusives'],
+          'sale':          ['clearance','bundle'],
+        };
+
+        function updateSubcategories() {
+          const cat = document.getElementById('categorySelect').value;
+          const sel = document.getElementById('subcategorySelect');
+          sel.innerHTML = '<option value="">-- None --</option>';
+          (subcategoryMap[cat] || []).forEach(sub => {
+            const opt = document.createElement('option');
+            opt.value = sub;
+            opt.textContent = sub.replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
+            sel.appendChild(opt);
+          });
+        }
+        </script>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>Stock *</label>
+            <input type="number" name="stock" placeholder="e.g. 50" required min="0">
+          </div>
+          <div class="form-group">
+            <label>Sizes</label>
+            <div class="size-checkboxes">
+              <% ['S','M','L','XL','XXL'].forEach(size => { %>
+                <label class="size-check-label">
+                  <input type="checkbox" name="sizes" value="<%= size %>" checked>
+                  <%= size %>
+                </label>
+              <% }) %>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Description</label>
+          <textarea name="description" rows="4" placeholder="Product description..."></textarea>
+        </div>
+
+        <div class="form-group">
+          <label>Product Images *</label>
+          <label class="file-upload-label" id="uploadLabel">
+            <i class="fa-solid fa-cloud-arrow-up"></i>
+            <span id="uploadLabelText">Click to select images (up to 5)</span>
+            <input type="file" id="imageFiles" multiple accept="image/*" onchange="handleImageSelect(this)">
+          </label>
+          <small>Uploads automatically to Cloudinary. JPG, PNG, WEBP supported.</small>
+          <div id="imagePreview" class="image-preview-row" style="margin-top:12px;"></div>
+          <div id="uploadProgress" style="display:none;margin-top:10px;">
+            <div style="background:#e5e7eb;border-radius:6px;height:6px;overflow:hidden;">
+              <div id="progressBar" style="background:#1f3d34;height:100%;width:0%;transition:width 0.3s;"></div>
+            </div>
+            <p id="progressText" style="font-size:12px;color:#6b7280;margin-top:6px;"></p>
+          </div>
+        </div>
+
+        <button type="submit" class="admin-submit-btn" id="submitBtn">
+          <i class="fa fa-plus"></i> ADD PRODUCT
+        </button>
+      </form>
+    </div>
+  </main>
+</div>
+
+<script>
+const CLOUDINARY_CLOUD_NAME   = 'dssh7mqni';
+const CLOUDINARY_UPLOAD_PRESET = 'av9zhtmj';
+
+let selectedFiles = [];
+
+function handleImageSelect(input) {
+  selectedFiles = Array.from(input.files).slice(0, 5);
+  const preview = document.getElementById('imagePreview');
+  const label   = document.getElementById('uploadLabelText');
+  preview.innerHTML = '';
+  label.textContent = selectedFiles.length
+    ? `${selectedFiles.length} image(s) selected`
+    : 'Click to select images (up to 5)';
+
+  selectedFiles.forEach(file => {
+    const reader = new FileReader();
+    reader.onload = e => {
+      const img = document.createElement('img');
+      img.src = e.target.result;
+      img.style.cssText = 'width:78px;height:94px;object-fit:cover;border-radius:6px;border:2px solid #1f3d34;';
+      preview.appendChild(img);
+    };
+    reader.readAsDataURL(file);
+  });
+}
+
+async function uploadToCloudinary(file) {
+  const fd = new FormData();
+  fd.append('file', file);
+  fd.append('upload_preset', CLOUDINARY_UPLOAD_PRESET);
+  fd.append('folder', 'royal_tag/products');
+  const res = await fetch(`https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/image/upload`, { method:'POST', body:fd });
+  if (!res.ok) throw new Error('Upload failed');
+  return (await res.json()).secure_url;
+}
+
+document.getElementById('productForm').addEventListener('submit', async function(e) {
+  if (!selectedFiles.length) return;
+  e.preventDefault();
+
+  const btn  = document.getElementById('submitBtn');
+  const prog = document.getElementById('uploadProgress');
+  const bar  = document.getElementById('progressBar');
+  const text = document.getElementById('progressText');
+
+  btn.disabled = true;
+  btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Uploading...';
+  prog.style.display = 'block';
+
+  try {
+    const urls = [];
+    for (let i = 0; i < selectedFiles.length; i++) {
+      text.textContent = `Uploading ${i+1}/${selectedFiles.length}...`;
+      bar.style.width  = `${Math.round((i/selectedFiles.length)*100)}%`;
+      urls.push(await uploadToCloudinary(selectedFiles[i]));
+      bar.style.width  = `${Math.round(((i+1)/selectedFiles.length)*100)}%`;
+    }
+    document.getElementById('cloudinaryUrls').value = urls.join(',');
+    text.textContent = 'Done! Saving...';
+    this.submit();
+  } catch(err) {
+    text.textContent = 'Upload failed: ' + err.message;
+    text.style.color = '#dc2626';
+    btn.disabled = false;
+    btn.innerHTML = '<i class="fa fa-plus"></i> ADD PRODUCT';
+  }
+});
+</script>
+
+<%- include('partials/admin-footer') %>

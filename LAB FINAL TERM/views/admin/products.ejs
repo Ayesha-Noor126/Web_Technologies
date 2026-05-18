@@ -1,0 +1,54 @@
+<%- include('partials/admin-header') %>
+
+<div class="admin-page">
+  <%- include('partials/admin-sidebar', { activePage: 'products' }) %>
+
+  <div class="admin-main">
+    <div class="admin-header">
+      <h1>Products (<%= products.length %>)</h1>
+      <a href="/admin/products/add" class="admin-btn">+ Add Product</a>
+    </div>
+
+    <div class="admin-table-wrap">
+      <table class="admin-table">
+        <thead>
+          <tr>
+            <th>Image</th>
+            <th>Name</th>
+            <th>Category</th>
+            <th>Price</th>
+            <th>Stock</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% products.forEach(product => { %>
+            <tr>
+              <td>
+                <img src="<%= product.images[0] %>" alt="<%= product.name %>"
+                  style="width:55px; height:65px; object-fit:cover; border-radius:4px;">
+              </td>
+              <td><strong><%= product.name %></strong></td>
+              <td><span class="category-tag"><%= product.category %></span></td>
+              <td>Rs.<%= product.price.toLocaleString() %></td>
+              <td>
+                <span class="<%= product.stock <= 0 ? 'stock-zero' : product.stock <= 5 ? 'stock-low' : 'stock-ok' %>">
+                  <%= product.stock %>
+                </span>
+              </td>
+              <td class="action-btns">
+                <a href="/admin/products/edit/<%= product._id %>" class="btn-edit">Edit</a>
+                <form action="/admin/products/delete/<%= product._id %>" method="POST"
+                  onsubmit="return confirm('Delete this product?')" style="display:inline;">
+                  <button type="submit" class="btn-delete">Delete</button>
+                </form>
+              </td>
+            </tr>
+          <% }) %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<%- include('partials/admin-footer') %>
