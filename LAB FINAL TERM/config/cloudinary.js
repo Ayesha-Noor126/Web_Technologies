@@ -1,0 +1,26 @@
+const cloudinary = require('cloudinary').v2;
+const { CloudinaryStorage } = require('multer-storage-cloudinary');
+const multer = require('multer');
+
+// Connect to your Cloudinary account
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key:    process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+});
+
+// Tell multer to upload to Cloudinary
+const storage = new CloudinaryStorage({
+  cloudinary,
+  params: {
+    folder: 'royal-tag-products',   // folder name in your Cloudinary account
+    allowed_formats: ['jpg', 'jpeg', 'png', 'webp'],
+    transformation: [{ width: 800, height: 1000, crop: 'limit', quality: 'auto' }]
+  }
+});
+
+
+//upload is now a middleware factory you can attach to any route.
+const upload = multer({ storage });
+
+module.exports = { cloudinary, upload };
